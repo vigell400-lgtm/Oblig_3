@@ -6,63 +6,65 @@ public class Customers {
 
     private Customer[] customers;
 
-    // a) Complete constructor
+    // a) constructor
     public Customers(int size) {
-
-        // TODO
-
+        if (size < 0) throw new IllegalArgumentException("size < 0");
+        customers = new Customer[size];
     }
 
     // b) count number of non-null references
     public int countNonNull() {
-
-
         int count = 0;
-
-        // TODO
-
+        for (Customer c : customers) {
+            if (c != null) count++;
+        }
         return count;
     }
 
     // c) return reference to customer with given id (if exists)
     public Customer getCustomer(int customer_id) {
-
-        boolean funnet = false;
-        Customer c = null;
-
-        // TODO
-
-        return c;
+        for (Customer c : customers) {
+            if (c != null && c.getCustomer_id() == customer_id) {
+                return c;
+            }
+        }
+        return null;
     }
 
-    // d) add a customer to the reference table
+    // d) add a customer to the reference table (first null slot)
     public boolean addCustomer(Customer c) {
-
-        boolean inserted = false;
-
-        // TODO
-
-        return inserted;
+        if (c == null) return false;
+        for (int i = 0; i < customers.length; i++) {
+            if (customers[i] == null) {
+                customers[i] = c;
+                return true;
+            }
+        }
+        return false; // no free slot
     }
 
     // e) remove customer with given id from reference table
     public Customer removeCustomer(int customer_id) {
-
-        boolean deleted = false;
-        Customer c = null;
-
-        // TODO
-
-        return c;
+        for (int i = 0; i < customers.length; i++) {
+            Customer c = customers[i];
+            if (c != null && c.getCustomer_id() == customer_id) {
+                customers[i] = null; // free the slot
+                return c;            // return removed reference
+            }
+        }
+        return null; // not found
     }
 
-    // f) return reference table with all customers
+    // f) return reference table with all customers (compact copy)
     public Customer[] getCustomers() {
-
-        Customer[] customers = null;
-
-        // TODO
-
-        return customers;
+        int count = countNonNull();
+        Customer[] result = new Customer[count];
+        int j = 0;
+        for (Customer c : customers) {
+            if (c != null) {
+                result[j++] = c;
+            }
+        }
+        return result;
     }
 }

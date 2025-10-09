@@ -1,29 +1,37 @@
 package no.hvl.dat100.javel.oppgave2;
 
-import no.hvl.dat100.javel.oppgave1.DayPowerData;
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class MonthMain {
     public static void main(String[] args) {
 
-        // test data
         double[][] power_prices_month = MonthPowerData.powerprices_month;
-
-        double[][] power_usage_month = MonthPowerData.powerusage_month;
+        double[][] power_usage_month  = MonthPowerData.powerusage_month;
 
         System.out.println("==============");
         System.out.println("OPPGAVE 2");
-        System.out.println("==============");
-        System.out.println();
+        System.out.println("==============\n");
 
-        /*
-        TODO
+        System.out.println("Forbruk (kWh) pr dag:");
+        MonthlyPower.print_PowerUsage(power_usage_month);
 
-         Write code that tests the methods you implement in the MonthlyPower class
-         Remember to teste the methods as you implement them
-         Remember to also to check that you get the expected results
-         */
+        System.out.println("\nPriser (NOK/kWh) pr dag:");
+        MonthlyPower.print_PowerPrices(power_prices_month);
 
+        System.out.println("\n— Beregninger —");
+        double totalUsage = MonthlyPower.computePowerUsage(power_usage_month);
+        System.out.printf("Totalt månedsforbruk (kWh): %.2f%n", totalUsage);
+
+        double spot = MonthlyPower.computeSpotPrice(power_usage_month, power_prices_month);
+        System.out.printf("Total spotpris (NOK): %.2f%n", spot);
+
+        double support = MonthlyPower.computePowerSupport(power_usage_month, power_prices_month);
+        System.out.printf("Strømstøtte (NOK): %.2f%n", support);
+
+        double norges = MonthlyPower.computeNorgesPrice(power_usage_month);
+        System.out.printf("Norgespris (NOK): %.2f%n", norges);
+
+        boolean over1000 = MonthlyPower.exceedThreshold(power_usage_month, 1000.0);
+        boolean over5000 = MonthlyPower.exceedThreshold(power_usage_month, 5000.0);
+        System.out.printf("Over 1000 kWh? %s%n", over1000 ? "JA" : "NEI");
+        System.out.printf("Over 5000 kWh? %s%n", over5000 ? "JA" : "NEI");
     }
 }
